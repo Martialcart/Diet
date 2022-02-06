@@ -16,7 +16,8 @@ function solve(matrix) {
 }
 /*negative numbers will get wrong results*/
 function solve_lower_triangle(matrix) {
-    for (let diagonal = 0; diagonal < matrix.length; diagonal++) {
+    let max_dim = lowest_dimension(matrix);
+    for (let diagonal = 0; diagonal < max_dim; diagonal++) {
         //get divider
         divider = matrix[diagonal][diagonal];      
         //divide row by divider
@@ -33,12 +34,24 @@ function solve_lower_triangle(matrix) {
 
 function subtrakt_main_row(matrix, y, m_row) {
     for (let x = m_row; x < matrix.length; x++) {
+        //TODO check if subtract or add 
         matrix[y][x] = matrix[y][x] - (matrix[m_row][x] * matrix[y][x]);
     }
 }
 
 function solve_upper_triangle(matrix) {
+    let bottom_diag = lowest_dimension(matrix);
 
+    for (let diagonal = bottom_diag; diagonal <= 0; diagonal--) {
+        //TODO turn rows above into zero
+        for (let y = diagonal - 1; y < matrix.length; y--){
+            subtrakt_main_row(matrix, y, diagonal);        
+          }  
+    }
+}
+
+function lowest_dimension(matrix) {
+    return Math.min(matrix.length, matrix[0].length);
 }
 
 function print(matrix) {
